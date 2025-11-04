@@ -1,3 +1,6 @@
+import factory.EmailNotificationFactory;
+import factory.PushNotificationFactory;
+import factory.SMSNotificationFactory;
 import factory.NotificationFactory;
 import decorator.LoggingNotificationDecorator;
 import observer.*;
@@ -5,19 +8,20 @@ import strategy.NotificationStrategy;
 public class Main {
     public static void main(String[] args) {
         NewsAgency agency = new NewsAgency();
-        NotificationStrategy emailWithLogging = new LoggingNotificationDecorator(
-                NotificationFactory.createNotification("EMAIL"));
-        NotificationStrategy sms = NotificationFactory.createNotification("SMS");
+        NotificationFactory emailFactory = new EmailNotificationFactory();
+        NotificationFactory smsFactory = new SMSNotificationFactory();
+        NotificationFactory pushFactory = new PushNotificationFactory();
+
+        NotificationStrategy emailWithLogging = new LoggingNotificationDecorator(emailFactory.createNotification());
+        NotificationStrategy sms = smsFactory.createNotification();
         Subscriber alice = new User("Alice", emailWithLogging);
         Subscriber bob = new User("Bob", sms);
         agency.subscribe(alice);
         agency.subscribe(bob);
+
         agency.addNews("Breaking news: Major event!");
-
-        NotificationStrategy pushWithLogging = new LoggingNotificationDecorator(
-                NotificationFactory.createNotification("PUSH"));
+        NotificationStrategy pushWithLogging = new LoggingNotificationDecorator(pushFactory.createNotification());
         alice.setNotificationStrategy(pushWithLogging);
-
         agency.addNews("Update: Details revealed.");
     }
 }
