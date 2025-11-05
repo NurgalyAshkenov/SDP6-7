@@ -14,14 +14,14 @@ public class Main {
 
         NotificationStrategy emailWithLogging = new LoggingNotificationDecorator(emailFactory.createNotification());
         NotificationStrategy sms = smsFactory.createNotification();
-        Subscriber alice = new User("Alice", emailWithLogging);
-        Subscriber bob = new User("Bob", sms);
-        agency.subscribe(alice);
-        agency.subscribe(bob);
+        Subscriber Nurik = new User("Nurik", emailWithLogging);
+        Subscriber Nurgaly = new User("Nurgaly", sms);
+        agency.subscribe(Nurik);
+        agency.subscribe(Nurgaly);
 
         agency.addNews("Breaking news: Major event!");
         NotificationStrategy pushWithLogging = new LoggingNotificationDecorator(pushFactory.createNotification());
-        alice.setNotificationStrategy(pushWithLogging);
+        Nurik.setNotificationStrategy(pushWithLogging);
         agency.addNews("Update: Details revealed.");
     }
 }
